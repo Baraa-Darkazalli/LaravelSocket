@@ -1,0 +1,24 @@
+{
+    "name": "baraadark/laravelsocket",
+    "description": "BaraaDark Laravel Socket is a powerful Laravel package that simplifies the integration of real-time WebSocket functionality into your Laravel projects. With this package, you can effortlessly create and manage a Node.js WebSocket server inside your Laravel application and utilize the Elephant.io library for seamless communication with Socket.io in PHP",
+    "type": "library",
+    "require": {
+        "elephantio/elephant.io": "^4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Baraadark\\Laravelsocket\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Baraa Darkazalli",
+            "email": "aboomarbaraa@gmail.com"
+        }
+    ],
+    "scripts": {
+        "post-install-cmd": [
+            "@php artisan socket:init"
+        ]
+    }
+}
