@@ -41,7 +41,8 @@ class InitNodeJsServer extends Command
             "mysql" => "^2.18.1",
             "socket.io" => "^4.1.3",
             "uuid" => "^8.3.2",
-            "dotenv" => "^10.0.0"
+            "dotenv" => "^10.0.0",
+            "axios"=> "^0.24.0"
         ];
         File::put('package.json', json_encode($packageJson, JSON_PRETTY_PRINT));
 
