@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Console\Commands;
+namespace BaraaDark\LaravelSocket\Console\Commands;
 
 use BaraaDark\LaravelSocket\Facades\LaravelSocket;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-class GenerateEventsJs extends Command
+class GenerateEventsJS extends Command
 {
     protected $signature = 'generate:events-js';
 

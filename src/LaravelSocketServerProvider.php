@@ -22,10 +22,7 @@ class LaravelSocketServerProvider extends ServiceProvider
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->commands([
-                Console\Commands\InitNodeJsServer::class,
-                Console\Commands\InitConfiguration::class,
-            ]);
+            $this->registerCommands();
             $this->registerPublishing();
         }
 
@@ -89,11 +86,25 @@ class LaravelSocketServerProvider extends ServiceProvider
     protected function registerPublishing()
     {
         $this->publishes([
-            __DIR__.'../config/laravel-socket.php' =>  config_path('laravel-socket.php'),
+            __DIR__.'/../config/laravel-socket.php' =>  config_path('laravel-socket.php'),
          ], 'socket-config');
 
         $this->publishes([
-            __DIR__.'../routes/events.php' =>  base_path('rouets/events.php'),
+            __DIR__.'/../routes/events.php' =>  base_path('rouets/events.php'),
          ], 'socket-routes');
+    }
+
+    /**
+     * Register the package's publishable resources.
+     *
+     * @return void
+     */
+    protected function registerCommands()
+    {
+        $this->commands([
+            Console\Commands\InitNodeJsServer::class,
+            Console\Commands\SetConfiguration::class,
+            Console\Commands\GenerateEventsJS::class,
+        ]);
     }
 }
