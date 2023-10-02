@@ -53,7 +53,7 @@ class GenerateEventsJS extends Command
         }
 
         // Write the events.js file
-        $eventsJsPath = __DIR__.'../../Nodejs/events.js';
+        $eventsJsPath = __DIR__.'/../../Nodejs/events.js';
         File::put($eventsJsPath, $eventsJs);
 
         $this->info('events.js file generated successfully.');

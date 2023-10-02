@@ -34,7 +34,7 @@ class SetConfiguration extends Command
         };`;
 
         // Write the events.js file
-        $eventsJsPath = __DIR__.'../../Nodejs/config.js';
+        $eventsJsPath = __DIR__.'/../../Nodejs/config.js';
         File::put($eventsJsPath, $configJs);
 
         $this->info('Configuration updated successfully.');
