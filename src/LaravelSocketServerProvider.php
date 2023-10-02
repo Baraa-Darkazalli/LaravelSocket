@@ -105,6 +105,7 @@ class LaravelSocketServerProvider extends ServiceProvider
             Console\Commands\InitNodeJsServer::class,
             Console\Commands\SetConfiguration::class,
             Console\Commands\GenerateEventsJS::class,
+            Console\Commands\StartNodeServer::class,
         ]);
     }
 }
