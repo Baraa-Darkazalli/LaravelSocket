@@ -48,7 +48,7 @@ class LaravelSocketServerProvider extends ServiceProvider
     protected function registerRoutes()
     {
         Route::group($this->routeConfiguration(), function () {
-            $this->loadRoutesFrom(__DIR__.'/../routes/events.php');
+            $this->loadRoutesFrom(base_path('routes/events.php'));
         });
     }
 
