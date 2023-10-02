@@ -27,14 +27,17 @@ class StartNodeServer extends Command
         // Use Symfony Process to run the Node.js server without TTY mode
         $process = Process::fromShellCommandline('node ' . $serverJsPath);
 
-        // Run the Node.js server
-        $process->run();
+       // Redirect the output and error streams
+        $process->run(function ($type, $buffer) {
+            $this->output->write($buffer);
+        });
 
         if ($process->isSuccessful()) {
             $this->info('Node.js server started successfully.');
             return 0;
         } else {
-            $this->error('Error starting Node.js server.');
+            $this->error('Error starting Node.js server:');
+            $this->error($process->getErrorOutput());
             return 1;
         }
     }
