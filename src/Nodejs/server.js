@@ -20,6 +20,9 @@ const server = app.listen(`${port}`, () => {
     connection.connect();
 });
 
+const handleSocketEvents = require('./events.js');
+
+
 // Intialize Socket
 const io = require("socket.io")(server, {
     cors : { origin : "*" }
@@ -29,18 +32,20 @@ const io = require("socket.io")(server, {
 io.on('connection', (socket) => {
     console.log('Client connected!');
 
-    // Listener when user emits the 'fetch/students/index' event
-    socket.on('fetch/students/index', (data) => {
-        console.log('fetch');
+    handleSocketEvents(socket, connection, io);
 
-        // Index students from the database
-        connection.query('SELECT * FROM students', (error, results) => {
-            if (error) throw error;
-            // Success
-            // Emit the students to the client who requested the data
-            io.emit('load/students/index', results);
-        });
-    });
+    // // Listener when user emits the 'fetch/students/index' event
+    // socket.on('fetch/students/index', (data) => {
+    //     console.log('fetch');
+
+    //     // Index students from the database
+    //     connection.query('SELECT * FROM students', (error, results) => {
+    //         if (error) throw error;
+    //         // Success
+    //         // Emit the students to the client who requested the data
+    //         io.emit('load/students/index', results);
+    //     });
+    // });
 
     socket.on('disconnect', () => {
         console.log('Client disconnected!');
