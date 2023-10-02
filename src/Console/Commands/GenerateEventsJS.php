@@ -2,15 +2,15 @@
 
 namespace BaraaDark\LaravelSocket\Console\Commands;
 
-use BaraaDark\LaravelSocket\Facades\LaravelSocket;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 
 class GenerateEventsJS extends Command
 {
-    protected $signature = 'generate:events-js';
+    protected $signature = 'socket:events';
 
-    protected $description = 'Generate events.js based on routes in events.php';
+    protected $description = 'Generate events.js based on Laravel routes events.php';
 
     public function __construct()
     {
@@ -19,37 +19,31 @@ class GenerateEventsJS extends Command
 
     public function handle()
     {
-        if (LaravelSocket::routesNotPublished())
-        {
-            return $this->warn('Please publish the routes files by running ' .
-                '\'php artisan vendor:publish --tag=socket-routes\'');
-        }
-
-        // Load the events.php routes file
-        $routesFile = base_path('routes/events.php');
-
-        $routes = include $routesFile;
-
-        // Create the events.js content
+        // Load the events.js content
         $eventsJs = "const axios = require('axios');\n";
         $eventsJs .= "const url = window.location.protocol + '//' + window.location.hostname;\n\n";
 
-        foreach ($routes as $route) {
-            list($method, $uri, $handler) = $route;
+        foreach (Route::getRoutes() as $route) {
+            $uri = $route->uri();
+            $methods = $route->methods();
 
-            $eventName = 'fetch' . str_replace('/', '-', $uri);
-            $routeUrl = "url + '$uri'";
+            // Check if the route URI starts with the "socket" prefix and if it's either GET or POST
+            if (strpos($uri, 'socket/') === 0 && (in_array('GET', $methods) || in_array('POST', $methods))) {
+                $eventName = 'fetch' . str_replace('/', '-', $uri);
+                $routeUrl = "url + '$uri'";
+                $axiosMethod = in_array('GET', $methods) ? 'get' : 'post'; // Use appropriate axios method
 
-            $eventsJs .= "socket.on('$eventName', (data) => {\n";
-            $eventsJs .= "  axios.$method($routeUrl)\n";
-            $eventsJs .= "    .then(response => {\n";
-            $eventsJs .= "      const results = response.data;\n";
-            $eventsJs .= "      io.emit('load$eventName', results);\n";
-            $eventsJs .= "    })\n";
-            $eventsJs .= "    .catch(error => {\n";
-            $eventsJs .= "      console.error(error);\n";
-            $eventsJs .= "    });\n";
-            $eventsJs .= "});\n\n";
+                $eventsJs .= "socket.on('$eventName', (data) => {\n";
+                $eventsJs .= "  axios.$axiosMethod($routeUrl)\n"; // Use the determined axios method
+                $eventsJs .= "    .then(response => {\n";
+                $eventsJs .= "      const results = response.data;\n";
+                $eventsJs .= "      io.emit('load$eventName', results);\n";
+                $eventsJs .= "    })\n";
+                $eventsJs .= "    .catch(error => {\n";
+                $eventsJs .= "      console.error(error);\n";
+                $eventsJs .= "    });\n";
+                $eventsJs .= "});\n\n";
+            }
         }
 
         // Write the events.js file
