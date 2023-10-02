@@ -48,7 +48,7 @@ class LaravelSocketServerProvider extends ServiceProvider
     protected function registerRoutes()
     {
         Route::group($this->routeConfiguration(), function () {
-            $this->loadRoutesFrom(__DIR__.'/../routes/socket.php');
+            $this->loadRoutesFrom(__DIR__.'/../routes/events.php');
         });
     }
 
@@ -89,9 +89,9 @@ class LaravelSocketServerProvider extends ServiceProvider
             __DIR__.'/../config/laravel-socket.php' =>  config_path('laravel-socket.php'),
          ], 'socket-config');
 
-        $this->publishes([
-            __DIR__.'/../routes/events.php' =>  base_path('rouets/events.php'),
-         ], 'socket-routes');
+        // $this->publishes([
+        //     __DIR__.'/../routes/events.php' =>  base_path('rouets/events.php'),
+        //  ], 'socket-routes');
     }
 
     /**
