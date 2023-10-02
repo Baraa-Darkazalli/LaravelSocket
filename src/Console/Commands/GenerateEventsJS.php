@@ -21,8 +21,6 @@ class GenerateEventsJS extends Command
     {
         // Load the events.js content
         $eventsJs = "const axios = require('axios');\n";
-        $eventsJs .= "const url = window.location.protocol + '//' + window.location.hostname;\n\n";
-
         foreach (Route::getRoutes() as $route) {
             $uri = $route->uri();
             $methods = $route->methods();
@@ -30,7 +28,7 @@ class GenerateEventsJS extends Command
             // Check if the route URI starts with the "socket" prefix and if it's either GET or POST
             if (strpos($uri, 'socket/') === 0 && (in_array('GET', $methods) || in_array('POST', $methods))) {
                 $eventName = 'fetch/' . $uri;
-                $routeUrl = "url + '/$uri'";
+                $routeUrl = "'http://192.168.0.53/socket/' + '$uri'";
                 $axiosMethod = in_array('GET', $methods) ? 'get' : 'post'; // Use appropriate axios method
 
                 $eventsJs .= "socket.on('$eventName', (data) => {\n";
