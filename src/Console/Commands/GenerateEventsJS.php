@@ -48,6 +48,13 @@ class GenerateEventsJS extends Command
 
         // Write the events.js file
         $eventsJsPath = __DIR__.'/../../Nodejs/events.js';
+
+        if (file_exists($eventsJsPath))
+        {
+            // Delete the existing events.js file
+            unlink($eventsJsPath);
+        }
+
         File::put($eventsJsPath, $eventsJs);
 
         $this->info('events.js file generated successfully.');
