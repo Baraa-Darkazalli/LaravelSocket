@@ -21,6 +21,7 @@ class GenerateEventsJS extends Command
     {
         // Load the events.js content
         $eventsJs = "const axios = require('axios');\n";
+        $eventsJs .= "module.exports = function (socket, connection, io) {\n";
         foreach (Route::getRoutes() as $route) {
             $uri = $route->uri();
             $methods = $route->methods();
@@ -43,6 +44,8 @@ class GenerateEventsJS extends Command
                 $eventsJs .= "});\n\n";
             }
         }
+        $eventsJs .= "};\n";
+
 
         // Write the events.js file
         $eventsJsPath = __DIR__.'/../../Nodejs/events.js';
