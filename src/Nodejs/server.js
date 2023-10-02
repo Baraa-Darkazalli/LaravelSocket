@@ -3,10 +3,11 @@ const express = require('express');
 const app = express();
 const { v4 : uuidv4 } = require('uuid');
 let mysql = require('mysql');
+const port = config.SOCKET_PORT;
 
 // Your database credentials here same with the laravel app.
 let connection = mysql.createConnection({
-    host: config.DB_HOST,
+    host: config.SOCKET_HOST,
     user: config.DB_USERNAME,
     password: config.DB_PASSWORD,
     database: config.DB_DATABASE,
