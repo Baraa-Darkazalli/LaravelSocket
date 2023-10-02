@@ -90,7 +90,7 @@ class LaravelSocketServerProvider extends ServiceProvider
          ], 'socket-config');
 
         $this->publishes([
-            __DIR__.'/../routes/events.php' =>  base_path('rouets/events.php'),
+            __DIR__.'/../routes/events.php' =>  base_path('routes/events.php'),
          ], 'socket-routes');
     }
 
