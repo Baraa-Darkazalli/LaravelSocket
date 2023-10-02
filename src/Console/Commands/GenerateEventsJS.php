@@ -2,6 +2,7 @@
 
 namespace BaraaDark\LaravelSocket\Console\Commands;
 
+use BaraaDark\LaravelSocket\Facades\LaravelSocket;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
@@ -20,16 +21,31 @@ class GenerateEventsJS extends Command
     public function handle()
     {
         // Load the events.js content
+        $baseUrl = env('APP_URL');
         $eventsJs = "const axios = require('axios');\n";
         $eventsJs .= "module.exports = function (socket, connection, io) {\n";
-        foreach (Route::getRoutes() as $route) {
+        foreach (Route::getRoutes() as $key=>$route) {
+            if($key==0)
+            {
+                // Get the scheme (http or https) and host from the route
+                $scheme = $route->getScheme();
+                $host = $route->getHost();
+
+                // Construct the base URL
+                $baseUrl = $scheme . '://' . $host;
+
+                // If the route is using a custom port, you can get it like this
+                if ($route->getPort() && !in_array($route->getPort(), [80, 443])) {
+                    $baseUrl .= ':' . $route->getPort();
+                }
+            }
             $uri = $route->uri();
             $methods = $route->methods();
 
             // Check if the route URI starts with the "socket" prefix and if it's either GET or POST
             if (strpos($uri, 'socket/') === 0 && (in_array('GET', $methods) || in_array('POST', $methods))) {
                 $eventName = 'fetch/' . $uri;
-                $routeUrl = "'http://192.168.0.53/' + '$uri'";
+                $routeUrl = "'$baseUrl/' + '$uri'";
                 $axiosMethod = in_array('GET', $methods) ? 'get' : 'post'; // Use appropriate axios method
 
                 $eventsJs .= "socket.on('$eventName', (data) => {\n";

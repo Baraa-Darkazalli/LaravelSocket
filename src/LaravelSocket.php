@@ -9,6 +9,35 @@ use PhpParser\Node\Scalar\MagicConst\Dir;
 
 class LaravelSocket
 {
+    protected string $host;
+    protected string $prefix;
+
+    public function __construct()
+    {
+        $this->host = '127.0.0.1';
+        $this->prefix = 'socket';
+    }
+
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+    }
+
+    public function getHost()
+    {
+        return $this->host;
+    }
+
+    public function setHost($host)
+    {
+        $this->host = $host;
+    }
+
     public function routesNotPublished()
     {
         $routesFile = base_path('routes/events.php');

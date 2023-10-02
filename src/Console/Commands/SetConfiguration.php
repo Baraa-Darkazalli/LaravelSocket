@@ -2,6 +2,7 @@
 
 namespace BaraaDark\LaravelSocket\Console\Commands;
 
+use BaraaDark\LaravelSocket\Facades\LaravelSocket;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -20,6 +21,9 @@ class SetConfiguration extends Command
     {
         $port = $this->ask('Enter the port number for Laravel Socket (default: 3030):') ?: 3030;
         $host = $this->ask('Enter the MySQL host (default: 127.0.0.1):') ?: '127.0.0.1';
+
+        LaravelSocket::setHost($host);
+
         $database = env('DB_DATABASE');
         $username = env('DB_USERNAME');
         $password = env('DB_PASSWORD');
@@ -32,6 +36,7 @@ class SetConfiguration extends Command
             DB_USERNAME: '$username',
             DB_PASSWORD: '$password',
         };";
+
 
         // Write the events.js file
         $eventsJsPath = __DIR__.'/../../Nodejs/config.js';
