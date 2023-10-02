@@ -5,6 +5,7 @@ namespace BaraaDark\LaravelSocket;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use PhpParser\Node\Scalar\MagicConst\Dir;
 
 class LaravelSocket
 {
@@ -13,6 +14,13 @@ class LaravelSocket
         $routesFile = base_path('routes/events.php');
 
         return !File::exists($routesFile);
+    }
+
+    public function jsConfigNotPublished()
+    {
+        $configJsFile =  __DIR__ . './Nodejs/config.js';
+
+        return !File::exists($configJsFile);
     }
 
     public function configNotPublished()

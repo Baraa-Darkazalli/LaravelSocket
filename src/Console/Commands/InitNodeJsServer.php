@@ -19,10 +19,10 @@ class InitNodeJsServer extends Command
 
     public function handle()
     {
-        if (LaravelSocket::configNotPublished())
+        if (LaravelSocket::jsConfigNotPublished())
         {
-            return $this->warn('Please publish the config file by running ' .
-                '\'php artisan vendor:publish --tag=socket-config\'');
+            return $this->warn('Please set server config first by running ' .
+                '\'php artisan socket:config\'');
         }
 
         // Change directory to your package's nodejs directory
