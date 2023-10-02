@@ -29,7 +29,7 @@ class GenerateEventsJS extends Command
 
             // Check if the route URI starts with the "socket" prefix and if it's either GET or POST
             if (strpos($uri, 'socket/') === 0 && (in_array('GET', $methods) || in_array('POST', $methods))) {
-                $eventName = 'fetch' . str_replace('/', '-', $uri);
+                $eventName = 'fetch/' . $uri;
                 $routeUrl = "url + '$uri'";
                 $axiosMethod = in_array('GET', $methods) ? 'get' : 'post'; // Use appropriate axios method
 
@@ -37,7 +37,7 @@ class GenerateEventsJS extends Command
                 $eventsJs .= "  axios.$axiosMethod($routeUrl)\n"; // Use the determined axios method
                 $eventsJs .= "    .then(response => {\n";
                 $eventsJs .= "      const results = response.data;\n";
-                $eventsJs .= "      io.emit('load$eventName', results);\n";
+                $eventsJs .= "      io.emit('load/$eventName', results);\n";
                 $eventsJs .= "    })\n";
                 $eventsJs .= "    .catch(error => {\n";
                 $eventsJs .= "      console.error(error);\n";
