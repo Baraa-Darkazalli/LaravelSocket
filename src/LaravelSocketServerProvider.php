@@ -13,10 +13,7 @@ class LaravelSocketServerProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->commands([
-            Console\Commands\InitNodeJsServer::class,
-            Console\Commands\InitConfiguration::class,
-        ]);
+
     }
 
     /**
@@ -25,6 +22,10 @@ class LaravelSocketServerProvider extends ServiceProvider
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\Commands\InitNodeJsServer::class,
+                Console\Commands\InitConfiguration::class,
+            ]);
             $this->registerPublishing();
         }
 
