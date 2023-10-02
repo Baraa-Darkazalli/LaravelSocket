@@ -27,10 +27,10 @@ class SetConfiguration extends Command
         // Define the JavaScript configuration content
         $configJs = "module.exports = {
             SOCKET_PORT: $port,
-            SOCKET_HOST: $host,
-            DB_DATABASE: $database,
-            DB_USERNAME: $username,
-            DB_PASSWORD: $password,
+            SOCKET_HOST: '$host',
+            DB_DATABASE: '$database',
+            DB_USERNAME: '$username',
+            DB_PASSWORD: '$password',
         };";
 
         // Write the events.js file
