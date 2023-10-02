@@ -25,13 +25,13 @@ class SetConfiguration extends Command
         $password = env('DB_PASSWORD');
 
         // Define the JavaScript configuration content
-        $configJs = `module.exports = {
+        $configJs = "module.exports = {
             SOCKET_PORT: $port,
             SOCKET_HOST: $host,
             DB_DATABASE: $database,
             DB_USERNAME: $username,
             DB_PASSWORD: $password,
-        };`;
+        };";
 
         // Write the events.js file
         $eventsJsPath = __DIR__.'/../../Nodejs/config.js';

@@ -1,24 +1,15 @@
-// require('dotenv').config({ path: '../../.env' });
-const config = require('/config.js');
+const config = require('./config.js');
 const express = require('express');
 const app = express();
 const { v4 : uuidv4 } = require('uuid');
-// const port = process.env.SOCKET_PORT || 3030;
 let mysql = require('mysql');
-
-// Access configuration settings
-const port = config.SOCKET_PORT | 3030;
-const host = config.SOCKET_HOST | 'localhost';
-const database = config.DB_DATABASE | 'laravel';
-const user = config.DB_USERNAME | 'root';
-const password = config.DB_PASSWORD | '';
 
 // Your database credentials here same with the laravel app.
 let connection = mysql.createConnection({
-    host : host,
-    user : user,
-    password : password,
-    database : database
+    host: config.DB_HOST,
+    user: config.DB_USERNAME,
+    password: config.DB_PASSWORD,
+    database: config.DB_DATABASE,
 });
 
 // Now let's create a server that will listen to our port.
