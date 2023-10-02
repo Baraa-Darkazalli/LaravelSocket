@@ -27,7 +27,17 @@ class GenerateEventsJS extends Command
         foreach (Route::getRoutes() as $key=>$route) {
             if($key==0)
             {
-                $baseUrl = $route->url();
+                // Get the scheme (http or https)
+                $scheme = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+
+                // Get the host
+                $host = $_SERVER['HTTP_HOST'];
+
+                // Get the port
+                $port = $_SERVER['SERVER_PORT'];
+
+                // Construct the base URL
+                $baseUrl = "$scheme://$host:$port";
             }
             $uri = $route->uri();
             $methods = $route->methods();
