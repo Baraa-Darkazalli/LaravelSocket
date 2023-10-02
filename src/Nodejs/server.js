@@ -1,12 +1,12 @@
-import * as config from './config.js';
-import express from 'express';
-import { v4 as uuidv4 } from 'uuid';
-import mysql from 'mysql';
-
+const config = require('./config.js');
+const express = require('express');
+const app = express();
+const { v4 : uuidv4 } = require('uuid');
+let mysql = require('mysql');
 const port = config.SOCKET_PORT;
 
-// Your database credentials here, same as with the Laravel app.
-const connection = mysql.createConnection({
+// Your database credentials here same with the laravel app.
+let connection = mysql.createConnection({
     host: config.SOCKET_HOST,
     user: config.DB_USERNAME,
     password: config.DB_PASSWORD,
@@ -14,8 +14,7 @@ const connection = mysql.createConnection({
 });
 
 // Now let's create a server that will listen to our port.
-const app = express();
-const server = app.listen(port, () => {
+const server = app.listen(`${port}`, () => {
     console.log(`Server started on port ${port}`);
     // Connect to our database.
     connection.connect();
