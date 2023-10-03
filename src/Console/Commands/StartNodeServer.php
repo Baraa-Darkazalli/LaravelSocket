@@ -15,30 +15,50 @@ class StartNodeServer extends Command
         parent::__construct();
     }
 
+    // public function handle()
+    // {
+    //     $serverJsPath = __DIR__ . '/../../Nodejs/server.js';
+
+    //     if (!file_exists($serverJsPath)) {
+    //         $this->error('server.js file not found.');
+    //         return 1;
+    //     }
+
+    //     // Use Symfony Process to run the Node.js server without TTY mode
+    //     $process = Process::fromShellCommandline('node ' . $serverJsPath);
+
+    //    // Redirect the output and error streams
+    //     $process->run(function ($type, $buffer) {
+    //         $this->output->write($buffer);
+    //     });
+
+    //     if ($process->isSuccessful()) {
+    //         $this->info('Node.js server started successfully.');
+    //         return 0;
+    //     } else {
+    //         $this->error('Error starting Node.js server:');
+    //         $this->error($process->getErrorOutput());
+    //         return 1;
+    //     }
+    // }
+
+    // In your Laravel Artisan command
     public function handle()
     {
         $serverJsPath = __DIR__ . '/../../Nodejs/server.js';
 
-        if (!file_exists($serverJsPath)) {
-            $this->error('server.js file not found.');
-            return 1;
-        }
+        // $packagePath = base_path('vendor/your-package-name/src/Nodejs/server.js');
 
-        // Use Symfony Process to run the Node.js server without TTY mode
-        $process = Process::fromShellCommandline('node ' . $serverJsPath);
+        exec('npm start ' . $serverJsPath, $output, $exitCode);
 
-       // Redirect the output and error streams
-        $process->run(function ($type, $buffer) {
-            $this->output->write($buffer);
-        });
-
-        if ($process->isSuccessful()) {
-            $this->info('Node.js server started successfully.');
-            return 0;
+        if ($exitCode !== 0) {
+            $this->error('Error starting Node.js server.');
         } else {
-            $this->error('Error starting Node.js server:');
-            $this->error($process->getErrorOutput());
-            return 1;
+            $this->info('Node.js server started successfully:');
+            foreach ($output as $line) {
+                $this->line($line);
+            }
         }
     }
+
 }
