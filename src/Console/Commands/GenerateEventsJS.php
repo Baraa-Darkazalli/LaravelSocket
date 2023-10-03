@@ -21,14 +21,10 @@ class GenerateEventsJS extends Command
     public function handle()
     {
         // Load the events.js content
-        $baseUrl = env('APP_URL');
+        $baseUrl = $_SERVER['APP_URL'];
         $eventsJs = "const axios = require('axios');\n";
         $eventsJs .= "module.exports = function (socket, connection, io) {\n";
         foreach (Route::getRoutes() as $key=>$route) {
-            if($key==0)
-            {
-                $baseUrl = app('url')->current();
-            }
             $uri = $route->uri();
             $methods = $route->methods();
 
