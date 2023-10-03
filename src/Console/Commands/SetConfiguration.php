@@ -19,10 +19,13 @@ class SetConfiguration extends Command
 
     public function handle()
     {
-        $port = $this->ask('Enter the port number for Laravel Socket (default: 3030):') ?: 3030;
-        $host = $this->ask('Enter the MySQL host (default: 127.0.0.1):') ?: '127.0.0.1';
+        $host = $this->ask('Enter the your host (like: http://127.0.0.1):') ?: 'http://127.0.0.1';
+        $port = $this->ask('Enter the listening port number for Laravel Socket (like: 3030):') ?: 3030;
+        $parsedUrl = parse_url($host);
 
-        LaravelSocket::setHost($host);
+        LaravelSocket::setProtocol($parsedUrl['scheme']);
+        LaravelSocket::setHost($parsedUrl['host']);
+        LaravelSocket::setPort($port);
 
         $database = env('DB_DATABASE');
         $username = env('DB_USERNAME');

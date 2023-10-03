@@ -85,9 +85,9 @@ class LaravelSocketServerProvider extends ServiceProvider
      */
     protected function registerPublishing()
     {
-        $this->publishes([
-            __DIR__.'/../config/laravel-socket.php' =>  config_path('laravel-socket.php'),
-         ], 'socket-config');
+        // $this->publishes([
+        //     __DIR__.'/../config/laravel-socket.php' =>  config_path('laravel-socket.php'),
+        //  ], 'socket-config');
 
         $this->publishes([
             __DIR__.'/../routes/events.php' =>  base_path('routes/events.php'),

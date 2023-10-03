@@ -15,36 +15,10 @@ class StartNodeServer extends Command
         parent::__construct();
     }
 
-    // public function handle()
-    // {
-    //     $serverJsPath = __DIR__ . '/../../Nodejs/server.js';
-
-    //     if (!file_exists($serverJsPath)) {
-    //         $this->error('server.js file not found.');
-    //         return 1;
-    //     }
-
-    //     // Use Symfony Process to run the Node.js server without TTY mode
-    //     $process = Process::fromShellCommandline('node ' . $serverJsPath);
-
-    //    // Redirect the output and error streams
-    //     $process->run(function ($type, $buffer) {
-    //         $this->output->write($buffer);
-    //     });
-
-    //     if ($process->isSuccessful()) {
-    //         $this->info('Node.js server started successfully.');
-    //         return 0;
-    //     } else {
-    //         $this->error('Error starting Node.js server:');
-    //         $this->error($process->getErrorOutput());
-    //         return 1;
-    //     }
-    // }
-
-    // In your Laravel Artisan command
     public function handle()
     {
+        $this->info('This command not ready yet .. please run server manuly by write npm server.js on serverFolder');
+        return 0;
         $serverJsPath = __DIR__ . '/../../Nodejs/server.js';
 
         // $packagePath = base_path('vendor/your-package-name/src/Nodejs/server.js');

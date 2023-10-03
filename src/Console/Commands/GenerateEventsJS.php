@@ -20,6 +20,24 @@ class GenerateEventsJS extends Command
 
     public function handle()
     {
+        if (LaravelSocket::jsConfigNotPublished())
+        {
+            return $this->warn('Please set server config first by running ' .
+                '\'php artisan socket:config\'');
+        }
+
+        if (LaravelSocket::serverNotInit())
+        {
+            return $this->warn('Please init server first by running ' .
+                '\'php artisan socket:init\'');
+        }
+
+        if (LaravelSocket::routesNotPublished())
+        {
+            return $this->warn('Please publish events route file first by running ' .
+                '\'php artisan vendor:publish --tags=socket-routes\'');
+        }
+
         // Load the events.js content
         $baseUrl = $_SERVER['APP_URL'];
         $eventsJs = "const axios = require('axios');\n";

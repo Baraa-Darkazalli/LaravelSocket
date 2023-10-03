@@ -2,6 +2,7 @@
 
 namespace BaraaDark\LaravelSocket;
 
+use ElephantIO\Client;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -9,13 +10,40 @@ use PhpParser\Node\Scalar\MagicConst\Dir;
 
 class LaravelSocket
 {
+    protected string $protocol;
     protected string $host;
+    protected string $port;
     protected string $prefix;
+    protected Client $client;
 
     public function __construct()
     {
-        $this->host = '127.0.0.1';
         $this->prefix = 'socket';
+        $this->protocol = 'http';
+        $this->host = '127.0.0.1';
+        $this->port = '3030';
+        $this->client = new Client(Client::engine(Client::CLIENT_4X, $this->getSocketFullUrl()));
+        $this->client->initialize();
+    }
+
+    public function getProtocol()
+    {
+        return $this->protocol;
+    }
+
+    public function setProtocol($protocol)
+    {
+        $this->protocol = $protocol;
+    }
+
+    public function getPort()
+    {
+        return $this->port;
+    }
+
+    public function setPort($port)
+    {
+        $this->port = $port;
     }
 
     public function getPrefix()
@@ -38,6 +66,16 @@ class LaravelSocket
         $this->host = $host;
     }
 
+    public function getSocketFullUrl()
+    {
+        return  $this->protocol . '://' . $this->host . ':' . $this->port;
+    }
+
+    public function emit($eventRouteEndPoint, $data=[])
+    {
+        $this->client->emit('fetch/'. $this->prefix . '/' . $eventRouteEndPoint, $data);
+    }
+
     public function routesNotPublished()
     {
         $routesFile = base_path('routes/events.php');
@@ -52,38 +90,15 @@ class LaravelSocket
         return !File::exists($configJsFile);
     }
 
+    public function serverNotInit()
+    {
+        $packageJsonFile =  __DIR__ . './Nodejs/package.json';
+
+        return !File::exists($packageJsonFile);
+    }
+
     public function configNotPublished()
     {
         return is_null(config('laravel-socket'));
-    }
-
-    public function getPort()
-    {
-        return env('SOCKET_PORT');
-    }
-
-    public function getMysqlHost()
-    {
-        return env('SOCKET_HOST');
-    }
-
-    public function getMysqlUser()
-    {
-        return env('DB_USERNAME');
-    }
-
-    public function getMysqlPassword()
-    {
-        return env('DB_PASSWORD');
-    }
-
-    public function getMysqlDatabase()
-    {
-        return env('DB_DATABASE');
-    }
-
-    public function prefix()
-    {
-        return config('laravel-socket.prefix', 'socket');
     }
 }
