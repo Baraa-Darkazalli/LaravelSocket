@@ -31,6 +31,7 @@ class LaravelSocket
     {
         $this->client = new Client(Client::engine(Client::CLIENT_4X, $this->getSocketFullUrl()));
         $this->client->initialize();
+        $this->client->of('/');
         $this->initDone = true;
     }
 

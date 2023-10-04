@@ -26,7 +26,6 @@ class InitNodeJsServer extends Command
         }
 
         // Init ElephentIo Client
-        $this->info(LaravelSocket::getSocketFullUrl());
         LaravelSocket::initElephintIo();
 
         // Change directory to your package's nodejs directory
