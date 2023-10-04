@@ -16,7 +16,7 @@ class LaravelSocket
     protected string $prefix;
     protected Client $client;
 
-    public function __construct()
+    public function boot()
     {
         $this->prefix = 'socket';
         $this->protocol = 'http';
