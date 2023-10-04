@@ -3,6 +3,7 @@
 namespace BaraaDark\LaravelSocket;
 
 use ElephantIO\Client;
+use Exception;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -15,15 +16,22 @@ class LaravelSocket
     protected string $port;
     protected string $prefix;
     protected Client $client;
+    protected bool   $initDone;
 
-    public function boot()
+    public function __construct()
     {
         $this->prefix = 'socket';
         $this->protocol = 'http';
         $this->host = '127.0.0.1';
         $this->port = '3030';
+        $this->initDone = false;
+    }
+
+    public function initElephintIo()
+    {
         $this->client = new Client(Client::engine(Client::CLIENT_4X, $this->getSocketFullUrl()));
         $this->client->initialize();
+        $this->initDone = true;
     }
 
     public function getProtocol()
@@ -73,6 +81,10 @@ class LaravelSocket
 
     public function emit($eventRouteEndPoint, $data=[])
     {
+        if(!$this->initDone)
+        {
+            throw new Exception("Please run php artisan socket:init first");
+        }
         $this->client->emit('fetch/'. $this->prefix . '/' . $eventRouteEndPoint, $data);
     }
 

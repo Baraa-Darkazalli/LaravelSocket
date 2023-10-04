@@ -25,6 +25,9 @@ class InitNodeJsServer extends Command
                 '\'php artisan socket:config\'');
         }
 
+        // Init ElephentIo Client
+        LaravelSocket::initElephintIo();
+
         // Change directory to your package's nodejs directory
         $nodeJsDir = base_path('vendor/baraadark/laravelsocket/src/Nodejs');
         chdir($nodeJsDir);
