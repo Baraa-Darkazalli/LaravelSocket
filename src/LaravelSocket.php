@@ -29,9 +29,11 @@ class LaravelSocket
 
     public function initElephintIo()
     {
-        $this->client = new Client(Client::engine(Client::CLIENT_4X, $this->getSocketFullUrl()));
-        $this->client->initialize();
-        $this->client->of('/');
+        $url = 'http://192.168.0.53:3030';
+        $client = new Client(Client::engine(Client::CLIENT_4X, $url));
+        $client->initialize();
+        // $this->client = new Client(Client::engine(Client::CLIENT_4X, $this->getSocketFullUrl()));
+        // $this->client->initialize();
         $this->initDone = true;
     }
 
