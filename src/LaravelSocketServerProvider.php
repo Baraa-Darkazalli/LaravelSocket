@@ -60,6 +60,7 @@ class LaravelSocketServerProvider extends ServiceProvider
      */
     protected function registerFacades()
     {
+        echo "facade";
         $this->app->singleton('LaravelSocket', function ($app) {
             return new \BaraaDark\LaravelSocket\LaravelSocket();
         });
@@ -72,6 +73,8 @@ class LaravelSocketServerProvider extends ServiceProvider
      */
     private function routeConfiguration()
     {
+        echo "facade";
+
         return [
             'prefix' => LaravelSocket::prefix(),
         ];
