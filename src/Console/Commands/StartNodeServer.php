@@ -2,6 +2,7 @@
 
 namespace BaraaDark\LaravelSocket\Console\Commands;
 
+use BaraaDark\LaravelSocket\Facades\LaravelSocket;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 
@@ -17,6 +18,9 @@ class StartNodeServer extends Command
 
     public function handle()
     {
+        // Init ElephentIo Client
+        LaravelSocket::initElephintIo();
+        $this->info('ElephintIo client server is running .. ');
         $this->info('This command not ready yet .. please run server manuly by write npm server.js on serverFolder');
         return 0;
         $serverJsPath = __DIR__ . '/../../Nodejs/server.js';
