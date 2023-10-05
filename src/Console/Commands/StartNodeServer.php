@@ -27,7 +27,11 @@ class StartNodeServer extends Command
 
         // $packagePath = base_path('vendor/your-package-name/src/Nodejs/server.js');
 
-        exec('npm start ' . $serverJsPath, $output, $exitCode);
+        exec('cd ..', $output, $exitCode);
+        exec('cd ..', $output, $exitCode);
+        exec('cd Nodejs', $output, $exitCode);
+        exec('node server.js', $output, $exitCode);
+        // exec('npm start ' . $serverJsPath, $output, $exitCode);
 
         if ($exitCode !== 0) {
             $this->error('Error starting Node.js server.');
