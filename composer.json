@@ -11,6 +11,13 @@
             "BaraaDark\\LaravelSocket\\": "src/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "BaraaDark\\LaravelSocket\\LaravelSocketServerProvider"
+            ]
+        }
+    },
     "authors": [
         {
             "name": "Baraa Darkazalli",

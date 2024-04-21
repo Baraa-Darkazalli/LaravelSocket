@@ -4,10 +4,7 @@ namespace BaraaDark\LaravelSocket;
 
 use ElephantIO\Client;
 use Exception;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use PhpParser\Node\Scalar\MagicConst\Dir;
 
 class LaravelSocket
 {
