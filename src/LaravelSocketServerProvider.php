@@ -23,9 +23,9 @@ class LaravelSocketServerProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->registerCommands();
-            $this->registerPublishing();
         }
-
+        
+        $this->registerPublishing();
         $this->registerResources();
     }
 
